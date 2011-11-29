@@ -18,7 +18,7 @@ namespace Simple.Testing.Framework
         {
             var generator = new RootGenerator(assembly);;
             var runner = new SpecificationRunner();
-            return generator.GetSpecifications().Select(runner.RunSpecifciation);
+            return generator.GetSpecifications().Select(runner.RunSpecification);
         }
     }
 }
