@@ -7,7 +7,7 @@ namespace Simple.Testing.Framework
 {
     public class SpecificationRunner
     {
-        public RunResult RunSpecifciation(SpecificationToRun spec)
+        public RunResult RunSpecification(SpecificationToRun spec)
         {
             var method = typeof(SpecificationRunner).GetMethod("Run", BindingFlags.NonPublic | BindingFlags.Instance);
             var tomake = spec.Specification.GetType().GetInterfaces().Single(x => x.IsGenericType && x.GetGenericTypeDefinition() == typeof(TypedSpecification<>));
@@ -40,6 +40,7 @@ namespace Simple.Testing.Framework
             catch(Exception ex)
             {
                 result.MarkFailure("On Failed", ex.InnerException);
+                return result;
             }
             object whenResult = null;
             Delegate when;
