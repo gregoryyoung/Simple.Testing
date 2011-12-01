@@ -7,7 +7,7 @@ namespace Simple.Testing.Framework.Tests
         public Specification when_running_specification_with_exception_in_before = new QuerySpecification<SpecificationRunner, RunResult>()
         {
             On = () => new SpecificationRunner(),
-            When = runner => runner.RunSpecifciation(TestSpecs.SpecWithExceptionInBefore.AsRunnable()),
+            When = runner => runner.RunSpecification(TestSpecs.SpecWithExceptionInBefore.AsRunnable()),
             Expect =
                 {
                     result => result.Passed == false,
@@ -21,7 +21,7 @@ namespace Simple.Testing.Framework.Tests
         public Specification when_running_specification_with_exception_in_on = new QuerySpecification<SpecificationRunner, RunResult>()
         {
             On = () => new SpecificationRunner(),
-            When = runner => runner.RunSpecifciation(TestSpecs.SpecWithExceptionInOn.AsRunnable()),
+            When = runner => runner.RunSpecification(TestSpecs.SpecWithExceptionInOn.AsRunnable()),
             Expect =
                 {
                     result => result.Passed == false,
@@ -35,7 +35,7 @@ namespace Simple.Testing.Framework.Tests
         public Specification when_running_specification_with_no_when = new QuerySpecification<SpecificationRunner, RunResult>()
         {
             On = () => new SpecificationRunner(),
-            When = runner => runner.RunSpecifciation(TestSpecs.SpecWithNoWhen.AsRunnable()),
+            When = runner => runner.RunSpecification(TestSpecs.SpecWithNoWhen.AsRunnable()),
             Expect =
                 {
                     result => result.Passed == false,
@@ -48,7 +48,7 @@ namespace Simple.Testing.Framework.Tests
         public Specification when_running_specification_with_exception_in_when = new QuerySpecification<SpecificationRunner, RunResult>()
         {
             On = () => new SpecificationRunner(),
-            When = runner => runner.RunSpecifciation(TestSpecs.SpecWithExceptionInWhen.AsRunnable()),
+            When = runner => runner.RunSpecification(TestSpecs.SpecWithExceptionInWhen.AsRunnable()),
             Expect =
                 {
                     result => result.Passed == false,
@@ -61,7 +61,7 @@ namespace Simple.Testing.Framework.Tests
         public Specification when_running_specification_with_exception_in_finally = new QuerySpecification<SpecificationRunner, RunResult>()
         {
             On = () => new SpecificationRunner(),
-            When = runner => runner.RunSpecifciation(TestSpecs.SpecWithExceptionInFinally.AsRunnable()),
+            When = runner => runner.RunSpecification(TestSpecs.SpecWithExceptionInFinally.AsRunnable()),
             Expect =
                 {
                     result => result.Passed == false,
@@ -75,7 +75,7 @@ namespace Simple.Testing.Framework.Tests
         public Specification when_running_specification_with_exception_in_expectation = new QuerySpecification<SpecificationRunner, RunResult>()
         {
             On = () => new SpecificationRunner(),
-            When = runner => runner.RunSpecifciation(TestSpecs.SpecWithExceptionInExpectation.AsRunnable()),
+            When = runner => runner.RunSpecification(TestSpecs.SpecWithExceptionInExpectation.AsRunnable()),
             Expect =
                 {
                     result => !result.Passed,
@@ -91,7 +91,7 @@ namespace Simple.Testing.Framework.Tests
         public Specification when_running_passing_specification_with_single_expectation = new QuerySpecification<SpecificationRunner, RunResult>()
         {
             On = () => new SpecificationRunner(),
-            When = runner => runner.RunSpecifciation(TestSpecs.SpecWithSinglePassingExpectation.AsRunnable()),
+            When = runner => runner.RunSpecification(TestSpecs.SpecWithSinglePassingExpectation.AsRunnable()),
             Expect =
                 {
                     result => result.Passed == true,

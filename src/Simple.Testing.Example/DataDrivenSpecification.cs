@@ -31,7 +31,7 @@ namespace Simple.Testing.Example
 
         public IEnumerable<AddArgs> AddingTestData()
         {
-            yield return new AddArgs { OperandOne = 1, OperantTwo = 1, ExpectedResult = 3 };
+            yield return new AddArgs { OperandOne = 1, OperantTwo = 1, ExpectedResult = 2 };
             yield return new AddArgs { OperandOne = -1, OperantTwo = 1, ExpectedResult = 0 };
             yield return new AddArgs { OperandOne = 50, OperantTwo = -55, ExpectedResult = -5 };
             yield return new AddArgs { OperandOne = 0, OperantTwo = 0, ExpectedResult = 0 };
