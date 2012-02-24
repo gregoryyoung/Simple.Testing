@@ -42,7 +42,7 @@ namespace DocGeneratorExample
                     exception => exception.Message == "The operation would overdraw the account"
                 }
         };
-        public Specification when_witdrawing_from_account_with_sufficient_funds = new ActionSpecification<Account>()
+        public Specification when_withdrawing_from_account_with_sufficient_funds = new ActionSpecification<Account>()
         {
             Before = () => SystemTime.Set(new DateTime(2011, 1, 1)),
             On = () => new Account("Joe User", 14, new Money(100)),
