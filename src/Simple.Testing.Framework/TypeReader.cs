@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using Simple.Testing.ClientFramework;
 
@@ -17,16 +18,41 @@ namespace Simple.Testing.Framework
         {
             foreach (var s in t.GetMethods(BindingFlags.Public | BindingFlags.Instance))
             {
+                SpecificationToRun toRun = null;
                 if (typeof(Specification).IsAssignableFrom(s.ReturnType))
                 {
-                    var result = s.CallMethod();
-                    if (result != null) yield return new SpecificationToRun((Specification) result, s);
+                    try
+                    {
+                        var result = s.CallMethod();
+                        if (result != null) toRun = new SpecificationToRun((Specification)result, s);
+                    }
+                    catch (Exception ex)
+                    {
+                        toRun = new SpecificationToRun(null, "Exception when creating specification", ex, s);
+                    }
+                    yield return toRun;
                 }
                 if (typeof(IEnumerable<Specification>).IsAssignableFrom(s.ReturnType))
                 {
-                    var obj = (IEnumerable<Specification>)s.CallMethod();
-                    foreach (var item in obj)
-                        yield return new SpecificationToRun(item, s);
+                    var specsToRun = new List<SpecificationToRun>();
+                    var specs = new List<Specification>();
+                    IEnumerable<Specification> obj;
+                    bool error = false;
+                    try
+                    {
+                        obj = (IEnumerable<Specification>)s.CallMethod();
+                        specs = obj.ToList();
+                    }
+                    catch (Exception ex)
+                    {
+                        specsToRun.Add(new SpecificationToRun(null, "Exception occured creating specification", ex, s));
+                        error = true;
+                    }
+                    if (!error)
+                    {
+                        foreach (var item in specs)
+                            yield return new SpecificationToRun(item, s);
+                    }
                 }
             }
         }

@@ -10,6 +10,16 @@ namespace Simple.Testing.Framework
     {
         public RunResult RunSpecifciation(SpecificationToRun spec)
         {
+            if (!spec.IsRunnable)
+            {
+                return new RunResult
+                           {
+                                  FoundOnMemberInfo = spec.FoundOn,
+                                  Message = spec.Reason,
+                                  Thrown = spec.Exception,
+                                  Passed = false
+                              };
+            }
             var method = typeof(SpecificationRunner).GetMethod("Run", BindingFlags.NonPublic | BindingFlags.Instance);
             var tomake = spec.Specification.GetType().GetInterfaces().Single(x => x.IsGenericType && x.GetGenericTypeDefinition() == typeof(TypedSpecification<>));
             var generic = method.MakeGenericMethod(tomake.GetGenericArguments()[0]);
