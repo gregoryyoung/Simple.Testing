@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
-namespace Simple.Testing.Framework
+namespace Simple.Testing.ClientFramework
 {
     public delegate void WhenAction<in T>(T item);
     public delegate bool Expectation<in T>(T obj);
@@ -111,8 +111,13 @@ namespace Simple.Testing.Framework
                                                         catch (TException ex)
                                                         {
                                                             return ex;
+
                                                         }
-                                                        return null;
+                                                        catch(Exception ex)
+                                                        {
+                                                            throw ex;
+                                                        }
+                                                        throw new ExpectedExceptionDidNotOccurException(null);
                                                     });
         }
 
@@ -120,5 +125,10 @@ namespace Simple.Testing.Framework
         public IEnumerable<Expression<Func<TException, bool>>> GetAssertions() { return Expect; }
         public Action GetFinally() { return Finally; }
         public string GetName() { return Name; }
+    }
+
+    public class ExpectedExceptionDidNotOccurException : Exception
+    {
+        public ExpectedExceptionDidNotOccurException(Exception innerException) : base((innerException == null) ? "Expected Exception did not occur " : "Caught " + innerException.GetType() + " instead", innerException) {}
     }
 }

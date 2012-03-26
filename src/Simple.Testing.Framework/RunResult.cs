@@ -23,7 +23,7 @@ namespace Simple.Testing.Framework
 
         public string Name
         {
-            get { return SpecificationName ?? FoundOnMemberInfo.Name.Replace('_', ' '); }
+            get { return SpecificationName ?? FoundOnMemberInfo.Name; }
         }
 
         internal void MarkFailure(string message, Exception thrown)
