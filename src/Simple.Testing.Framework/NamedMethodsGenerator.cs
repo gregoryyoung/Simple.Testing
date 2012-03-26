@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using Simple.Testing.ClientFramework;
 
 namespace Simple.Testing.Framework
@@ -36,16 +35,41 @@ namespace Simple.Testing.Framework
                 var methodinfos = allMethods.Where(x => x.Name == methodname);
                 foreach(var info in methodinfos)
                 {
+                    SpecificationToRun toRun = null;
                     if (typeof(Specification).IsAssignableFrom(info.ReturnType))
                     {
-                        var result = info.CallMethod();
-                        if (result != null) yield return new SpecificationToRun((Specification)result, info);
+                        try
+                        {
+                            var result = info.CallMethod();
+                            if (result != null)  toRun = new SpecificationToRun((Specification) result, info);
+                        }
+                        catch(Exception ex)
+                        {
+                            toRun = new SpecificationToRun(null, "Exception when creating specification", ex, info);
+                        }
+                        yield return toRun;
                     }
                     if (typeof(IEnumerable<Specification>).IsAssignableFrom(info.ReturnType))
                     {
-                        var obj = (IEnumerable<Specification>)info.CallMethod();
-                        foreach (var item in obj)
-                            yield return new SpecificationToRun(item, info);
+                        var specsToRun = new List<SpecificationToRun>();
+                        var specs = new List<Specification>();
+                        IEnumerable<Specification> obj;
+                        bool error = false;
+                        try
+                        {
+                            obj = (IEnumerable<Specification>) info.CallMethod();
+                            specs = obj.ToList();
+                        }
+                        catch(Exception ex)
+                        {
+                            specsToRun.Add(new SpecificationToRun(null, "Exception occured creating specification", ex, info));
+                            error = true;
+                        }
+                        if(!error)
+                        {
+                            foreach (var item in specs)
+                                yield return new SpecificationToRun(item, info);
+                        }
                     }
                 }
             }
