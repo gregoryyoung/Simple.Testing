@@ -19,7 +19,10 @@ namespace Simple.Testing.Framework
         public static Expression<Func<bool>> Apply<T>(Expression<Func<T,bool>> expr, object value)
         {
             var paramExprToReplace = expr.Parameters[0];
-            var valueToApply = Expression.Constant(value, value.GetType());
+        	var type = value == null
+        	           	? typeof (T)
+        	           	: value.GetType();
+            var valueToApply = Expression.Constant(value, type);
             var visitor = new PartialApplicationVisitor(paramExprToReplace, valueToApply);
 
             var oldBody = expr.Body;
