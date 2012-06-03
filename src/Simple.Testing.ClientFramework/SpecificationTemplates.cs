@@ -111,12 +111,12 @@ namespace Simple.Testing.ClientFramework
                                                         catch (TException ex)
                                                         {
                                                             return ex;
-
                                                         }
                                                         catch(Exception ex)
                                                         {
                                                             throw ex;
                                                         }
+
                                                         throw new ExpectedExceptionDidNotOccurException(null);
                                                     });
         }

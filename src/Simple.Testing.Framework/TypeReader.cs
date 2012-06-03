@@ -24,6 +24,7 @@ namespace Simple.Testing.Framework
                     try
                     {
                         var result = s.CallMethod();
+                        
                         if (result != null) toRun = new SpecificationToRun((Specification)result, s);
                     }
                     catch (Exception ex)
@@ -63,13 +64,18 @@ namespace Simple.Testing.Framework
             {
                 if (typeof(Specification).IsAssignableFrom(m.FieldType))
                 {
-                    yield return new SpecificationToRun((Specification) m.GetValue(Activator.CreateInstance(t)), m);
+                    var spec = (Specification) m.GetValue(Activator.CreateInstance(t));
+                    if(spec != null)
+                        yield return new SpecificationToRun(spec, m);
                 }
                 if (typeof(IEnumerable<Specification>).IsAssignableFrom(m.FieldType))
                 {
                     var obj = (IEnumerable<Specification>)m.GetValue(Activator.CreateInstance(t));
-                    foreach (var item in obj)
-                        yield return new SpecificationToRun(item, m);
+                    if (obj != null)
+                    {
+                        foreach (var item in obj)
+                            yield return new SpecificationToRun(item, m);
+                    }
                 }
             }
         }

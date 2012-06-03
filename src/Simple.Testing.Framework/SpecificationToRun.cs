@@ -29,5 +29,7 @@ namespace Simple.Testing.Framework
             Reason = reason;
             IsRunnable = false;
         }
+
+        public SpecificationToRun() {}
     }
 }

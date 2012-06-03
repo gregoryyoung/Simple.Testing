@@ -7,60 +7,54 @@ namespace DocGeneratorExample
 {
     public class AccountSpecifications
     {
-        public Specification when_constructing_an_account = new ConstructorSpecification<Account>()
-                                                                {
-                                                                    When = () => new Account("Jane Smith", 17),
-                                                                    Expect =
-                                                                        {
-                                                                            account =>
-                                                                            account.AccountHolderName == "Jane Smith",
-                                                                            account => account.UniqueIdentifier == 17,
-                                                                            account =>
-                                                                            account.CurrentBalance == new Money(0m),
-                                                                            account => account.Transactions.Count() == 0
-                                                                        }
-                                                                };
+        public Specification when_constructing_an_account()
+        {
+            return new ConstructorSpecification<Account>()
+                       {
+                           When = () => new Account("Jane Smith", 17),
+                           Expect =
+                               {
+                                   account => account.AccountHolderName == "Jane Smith",
+                                   account => account.UniqueIdentifier == 17,
+                                   account => account.CurrentBalance == new Money(0m),
+                                   account => account.Transactions.Count() == 0
+                               }
+                       };
+        }
 
-        public Specification when_depositing_to_a_new_account = new ActionSpecification<Account>()
-                                                                    {
-                                                                        Before =
-                                                                            () =>
-                                                                            SystemTime.Set(new DateTime(2011, 1, 1)),
-                                                                        On = () => new Account("Joe User", 14),
-                                                                        When = account => account.Deposit(new Money(50)),
-                                                                        Expect =
-                                                                            {
-                                                                                account =>
-                                                                                account.CurrentBalance == new Money(50),
-                                                                                account =>
-                                                                                account.Transactions.Count() == 1,
-                                                                                account =>
-                                                                                account.Transactions.First().Amount ==
-                                                                                new Money(50),
-                                                                                account =>
-                                                                                account.Transactions.First().Type ==
-                                                                                TransactionType.Deposit,
-                                                                                account =>
-                                                                                account.Transactions.First().Timestamp ==
-                                                                                new DateTime(2011, 1, 1),
-                                                                            },
-                                                                        Finally = SystemTime.Clear
-                                                                    };
+        public Specification when_depositing_to_a_new_account()
+        {
+            return new ActionSpecification<Account>()
+                       {
+                           Before =
+                               () => SystemTime.Set(new DateTime(2011, 1, 1)),
+                           On = () => new Account("Joe User", 14),
+                           When = account => account.Deposit(new Money(50)),
+                           Expect =
+                               {
+                                   account => account.CurrentBalance == new Money(50),
+                                   account => account.Transactions.Count() == 1,
+                                   account => account.Transactions.First().Amount == new Money(50),
+                                   account => account.Transactions.First().Type == TransactionType.Deposit,
+                                   account => account.Transactions.First().Timestamp == new DateTime(2011, 1, 1),
+                               },
+                           Finally = SystemTime.Clear
+                       };
+        }
 
-        public Specification when_withdrawing_to_overdraw_an_account = new FailingSpecification
-            <Account, CannotOverdrawAccountException>()
-                                                                           {
-                                                                               On = () => new Account("Joe User", 14),
-                                                                               When =
-                                                                                   account =>
-                                                                                   account.Withdraw(new Money(50)),
-                                                                               Expect =
-                                                                                   {
-                                                                                       exception =>
-                                                                                       exception.Message ==
-                                                                                       "The operation would overdraw the account"
-                                                                                   }
-                                                                           };
+        public Specification when_withdrawing_to_overdraw_an_account()
+        {
+            return new FailingSpecification<Account, CannotOverdrawAccountException>()
+                       {
+                           On = () => new Account("Joe User", 14),
+                           When =
+                               account => account.Withdraw(new Money(50)),
+                           Expect =
+                               {
+                                   exception => exception.Message == "The operation would overdraw the account"
+                               }
+                       };
+        }
 
         public Specification when_witdrawing_from_account_with_sufficient_funds()
         {

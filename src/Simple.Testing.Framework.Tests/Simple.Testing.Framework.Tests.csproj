@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MightyMooseIgnoreAttribute.cs" />
     <Compile Include="NamedMethodGeneratorTests.cs" />
     <Compile Include="PartialApplicationVisitorSpecifications.cs" />
     <Compile Include="PassingSpecification.cs" />
