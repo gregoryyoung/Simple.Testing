@@ -10,6 +10,10 @@ namespace Simple.Testing.Framework
     {
         public static IEnumerable<SpecificationToRun> GetSpecificationsIn(Type t)
         {
+			if (t.ContainsGenericParameters)
+			{
+				yield break;
+			}
             foreach (var methodSpec in AllMethodSpecifications(t)) yield return methodSpec;
             foreach (var fieldSpec in AllFieldSpecifications(t)) yield return fieldSpec;
         }
