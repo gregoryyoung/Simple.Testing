@@ -33,7 +33,7 @@ namespace Simple.Testing.ClientFramework
 
         public Action GetBefore() { return Before; }
         public Delegate GetOn() { return On; }
-        public Delegate GetWhen() { return When; }
+        public Delegate GetWhen() { return new Func<TGiven, TResult>(given => AndTransformedBy(When(given))); }
         public IEnumerable<Expression<Func<TResult, bool>>> GetAssertions() { return Expect; }
         public Action GetFinally() { return Finally; }
         public string GetName() { return Name; }
