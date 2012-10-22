@@ -38,7 +38,8 @@ namespace Simple.Testing.Framework
 
             if (RunSetup(spec, result, out runResult, out sut, out whenResult, out when)) return runResult;
             var fromWhen = when.Method.ReturnType == typeof(void) ? sut : whenResult;
-            bool allOk = true;
+	    bool allOkForAssertions = true;
+	    bool allOkForTeardowns = true; 
             //OK THIS IS A HACK! ITS HERE FOR PROFILING SUPPORT (I NEED TO BE ABLE TO GET THE METHOD OF THE ORIGINAL METHOD OF SPEC)
             var hack = foundon as MethodInfo;
             if (hack != null)
@@ -46,9 +47,9 @@ namespace Simple.Testing.Framework
                 hack.CallMethod();
             }
             //YOU CANNOT PUT A METHOD CALL BETWEEN LAST AND THIS ONE!!!!
-            allOk = RunAssertions(spec, result, fromWhen);
-            allOk = RunTeardowns(spec, result);
-            result.Passed = allOk;
+            allOkForAssertions = RunAssertions(spec, result, fromWhen);
+            allOkForTeardowns = RunTeardowns(spec, result);
+            result.Passed = allOkForAssertions && allOkForTeardowns;
             return result;
         }
 
