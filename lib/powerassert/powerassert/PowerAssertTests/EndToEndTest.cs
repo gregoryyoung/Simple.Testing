@@ -33,6 +33,14 @@ namespace PowerAssertTests
 
         [Test]
         [Ignore("This test will fail for demo purposes")]
+        public void RunTypeOfExpression()
+        {
+            int x = 1;
+            PAssert.IsTrue(() => x.GetType() == typeof(string));
+        }
+
+        [Test]
+        [Ignore("This test will fail for demo purposes")]
         public void RunComplexExpression()
         {
             int x = 11;
