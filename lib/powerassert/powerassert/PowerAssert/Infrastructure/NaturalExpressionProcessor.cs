@@ -318,6 +318,10 @@ namespace PowerAssert.Infrastructure
             {
                 return "null";
             }
+            if (value is Type)
+            {
+                return ((Type) value).Name;
+            }
             if (value is string)
             {
                 return "\"" + value + "\"";
@@ -349,6 +353,10 @@ namespace PowerAssert.Infrastructure
             if (value == null)
             {
                 return "null";
+            }
+            if (value is Type)
+            {
+                return ((Type)value).Name;
             }
             if (value is string)
             {
