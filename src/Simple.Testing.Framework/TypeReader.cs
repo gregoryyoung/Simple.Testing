@@ -60,6 +60,8 @@ namespace Simple.Testing.Framework
 
         private static IEnumerable<SpecificationToRun> AllFieldSpecifications(Type t)
         {
+            if (!t.HasDefaultParameterlessConstructor())
+                yield break;
             foreach (var m in t.GetFields(BindingFlags.Public | BindingFlags.Instance))
             {
                 if (typeof(Specification).IsAssignableFrom(m.FieldType))

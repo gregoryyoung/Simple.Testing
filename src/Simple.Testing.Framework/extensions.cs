@@ -30,6 +30,14 @@ namespace Simple.Testing.Framework
         }
     }
 
+    public static class TypeExtensions
+    {
+        public static bool HasDefaultParameterlessConstructor(this Type type)
+        {
+            return type.GetConstructors().Any(ctor => false == ctor.GetParameters().Any());
+        }
+    }
+
     public static class MethodInfoExtensions
     {
         public static object CallMethod(this MethodInfo methodInfo)
