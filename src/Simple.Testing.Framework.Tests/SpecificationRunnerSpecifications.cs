@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Simple.Testing.ClientFramework;
 
 namespace Simple.Testing.Framework.Tests
@@ -125,6 +126,22 @@ namespace Simple.Testing.Framework.Tests
                                }
                        };
         }
+
+        public IEnumerable<Specification> when_running_a_row_specification()
+        {
+            yield return new QuerySpecification<SpecificationRunner, RunResult>()
+                        {
+                            On = () => new SpecificationRunner(),
+                            When =
+                                runner =>
+                                runner.RunSpecifciation(new TestSpecs().SpecWithSinglePassingExpectation().AsRunnable()),
+                            Expect =
+                                {
+                                    result => result.Passed,
+                                }
+                        };
+        }
+
     }
 
     public class TestSpecs
